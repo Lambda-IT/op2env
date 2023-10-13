@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "version": 2,
+    "title": "Op2env executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "childTarget": {
+            "type": "string",
+            "description": "The target to execute with environment variables pulled from 1password"
+        }
+    },
+    "required": []
+}

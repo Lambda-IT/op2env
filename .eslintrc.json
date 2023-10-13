@@ -1,7 +1,7 @@
 {
     "root": true,
     "ignorePatterns": ["**/*"],
-    "plugins": ["@nx"],
+    "plugins": ["@nx", "import"],
     "overrides": [
         {
             "files": "*.json",
@@ -22,6 +22,43 @@
                                 "onlyDependOnLibsWithTags": ["*"]
                             }
                         ]
+                    }
+                ],
+                "import/order": [
+                    "error",
+                    {
+                        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+                        "newlines-between": "always",
+                        "pathGroups": [
+                            {
+                                "pattern": "@lambda-it/**",
+                                "group": "external",
+                                "position": "after"
+                            }
+                        ],
+                        "pathGroupsExcludedImportTypes": ["builtin"],
+                        "alphabetize": {
+                            "order": "asc",
+                            "caseInsensitive": true
+                        }
+                    }
+                ],
+                "sort-imports": [
+                    "error",
+                    {
+                        "ignoreCase": false,
+                        "ignoreDeclarationSort": true,
+                        "ignoreMemberSort": false,
+                        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+                        "allowSeparatedGroups": false
+                    }
+                ],
+                "@typescript-eslint/no-unused-vars": [
+                    "error",
+                    {
+                        "varsIgnorePattern": "_.*",
+                        "argsIgnorePattern": "_.*",
+                        "caughtErrorsIgnorePattern": "_.*"
                     }
                 ]
             }

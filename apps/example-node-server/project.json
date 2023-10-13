@@ -37,6 +37,12 @@
             }
         },
         "serve": {
+            "executor": "@lambda-it/nx-op2env:op2env",
+            "options": {
+                "childTarget": "_serve"
+            }
+        },
+        "_serve": {
             "executor": "@nx/js:node",
             "defaultConfiguration": "development",
             "options": {
