@@ -14,7 +14,9 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@lambda-it/nx-op2env": ["libs/nx-op2env/src/index.ts"]
+        }
     },
     "exclude": ["node_modules", "tmp"]
 }
