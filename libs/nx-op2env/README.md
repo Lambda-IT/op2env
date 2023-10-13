@@ -1,11 +1,21 @@
 # nx-op2env
 
-This library was generated with [Nx](https://nx.dev).
+`nx-op2env` is an nx plugin to retrieve secrets from 1password and set them as environment variables.
+It will then execute a "child" executor which will have access to the secrets as environment variables.
 
-## Building
+## Usage
 
-Run `nx build nx-op2env` to build the library.
+### Executor `op2env`
 
-## Running unit tests
+This executor will retrieve secrets from 1password and set them as environment variables, then execute a "child" executor which will have access to the secrets as environment variables.
 
-Run `nx test nx-op2env` to execute the unit tests via [Jest](https://jestjs.io).
+For example, in a standard Node.js project, you can rename the `serve` target in your project's `project.json` to `_serve`, then use `op2env` like this:
+
+```json
+        "serve": {
+            "executor": "@lambda-it/nx-op2env:op2env",
+            "options": {
+                "childTarget": "serve"
+            }
+        }
+```
