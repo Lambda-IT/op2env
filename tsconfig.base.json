@@ -16,7 +16,10 @@
         "baseUrl": ".",
         "paths": {
             "@lambda-it/nx-op2env": ["libs/nx-op2env/src/index.ts"]
-        }
+        },
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": false
     },
     "exclude": ["node_modules", "tmp"]
 }
