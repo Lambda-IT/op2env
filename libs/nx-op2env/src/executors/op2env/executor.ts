@@ -1,5 +1,9 @@
 import * as Fs from '@effect/platform/FileSystem';
-import { CommandExecutor as NodeCommandExecutor, FileSystem as NodeFileSystem } from '@effect/platform-node';
+import {
+    CommandExecutor as NodeCommandExecutor,
+    FileSystem as NodeFileSystem,
+    Path as NodePath,
+} from '@effect/platform-node';
 import * as S from '@effect/schema/Schema';
 import { ExecutorContext, parseTargetString, runExecutor } from '@nx/devkit';
 import { Console, Effect, Layer, ReadonlyRecord, Tuple, pipe } from 'effect';
@@ -21,14 +25,14 @@ export default async function op2envExecutor(options: Op2envExecutorSchema, cont
             }
 
             const version = yield* _(Op.version);
-            yield* _(Console.log('1password CLI version: ', version));
+            yield* _(Console.log('1password CLI version:', version));
 
             yield* _(Op.signin);
 
             const iam = yield* _(Op.whoami);
-            yield* _(Console.log('URL: ', iam.url));
-            yield* _(Console.log('Email: ', iam.email));
-            yield* _(Console.log('User Id: ', iam.userId));
+            yield* _(Console.log('URL:', iam.url));
+            yield* _(Console.log('Email:', iam.email));
+            yield* _(Console.log('User Id:', iam.userId));
 
             const opSecretReferencesRecord = yield* _(
                 Effect.all(
@@ -60,15 +64,25 @@ export default async function op2envExecutor(options: Op2envExecutorSchema, cont
         }),
     );
 
+    const opCliPath = Effect.provide(
+        Op.findOpCliPath.pipe(
+            Effect.flatten,
+            Effect.tap(path => Console.info(`1password CLI path is ${path}`)),
+        ),
+        Layer.mergeAll(NodeFileSystem.layer, NodePath.layer),
+    );
+
     const runnable = Effect.provide(
         program,
         Layer.mergeAll(
             NodeCommandExecutor.layer.pipe(Layer.use(NodeFileSystem.layer)),
             NodeFileSystem.layer,
-            Layer.succeed(Op.OpCliPathTag, Op.OpCliPath('/mnt/c/Program Files/1Password CLI/op.exe')),
+            NodePath.layer,
+            Layer.effect(Op.OpCliPathTag, opCliPath),
         ),
     );
 
+    // console.log(chalk.gray(`Running "${options.childTarget}"`));
     const success = await Effect.runPromise(runnable);
 
     if (success) {

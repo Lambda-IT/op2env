@@ -1,7 +1,8 @@
-import { Command } from '@effect/platform-node';
+import { Command, Path } from '@effect/platform-node';
+import { FileSystem } from '@effect/platform-node/FileSystem';
 import * as PR from '@effect/schema/ParseResult';
 import * as S from '@effect/schema/Schema';
-import { Brand, Context, Data, Effect, ReadonlyArray, ReadonlyRecord, pipe } from 'effect';
+import { Brand, Context, Data, Effect, Option, ReadonlyArray, ReadonlyRecord, pipe } from 'effect';
 
 import { toLines, toString } from './Stream';
 
@@ -115,3 +116,28 @@ export const whoami = Effect.gen(function* (_) {
         ),
     );
 });
+
+export const findOpCliPath = Effect.gen(function* (_) {
+    const path = yield* _(Path.Path);
+    const envPaths = ReadonlyArray.reverse((globalThis.process.env.PATH || '').split(':'));
+
+    for (const envPath of envPaths) {
+        const validOpPath = yield* _(getValidPath(path.join(envPath, 'op')));
+        if (Option.isSome(validOpPath)) return yield* _(Effect.succeed(Option.map(validOpPath, OpCliPath)));
+
+        const validOpExePath = yield* _(getValidPath(path.join(envPath, 'op.exe')));
+        if (Option.isSome(validOpExePath)) return yield* _(Effect.succeed(Option.map(validOpExePath, OpCliPath)));
+    }
+
+    return yield* _(Effect.succeed(Option.none<OpCliPath>()));
+});
+
+const getValidPath = (executablePath: string) =>
+    Effect.gen(function* (_) {
+        const fs = yield* _(FileSystem);
+        return yield* _(
+            fs.stat(executablePath),
+            Effect.map(() => Option.some(executablePath)),
+            Effect.catchAll(() => Effect.succeed(Option.none<string>())),
+        );
+    });
