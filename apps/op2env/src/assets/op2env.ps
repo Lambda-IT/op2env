@@ -1,0 +1,22 @@
+function op2env {
+    param (
+        [string]$filename
+    )
+
+    # Capture the output of `op2env-print` function
+    $output = op2env-print @args
+
+    # Split the output into lines
+    $lines = $output -split "`n"
+
+    # Loop over each line
+    foreach ($line in $lines) {
+        # Split each line by '='
+        $parts = $line -split '=', 2
+
+        # Check if the split resulted in two parts, then set the environment variable
+        if ($parts.Count -eq 2) {
+            [System.Environment]::SetEnvironmentVariable($parts[0].Trim(), $parts[1].Trim(), "Process")
+        }
+    }
+}

@@ -1,9 +1,0 @@
-{
-    "executors": {
-        "op2env": {
-            "implementation": "./src/executors/op2env/executor",
-            "schema": "./src/executors/op2env/schema.json",
-            "description": "op2env executor"
-        }
-    }
-}

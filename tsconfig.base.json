@@ -13,13 +13,10 @@
         "lib": ["es2020", "dom"],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
+        // "rewriteRelativeImportExtensions": true,
+        // "allowImportingTsExtensions": true,
         "baseUrl": ".",
-        "paths": {
-            "@lambda-it/nx-op2env": ["libs/nx-op2env/src/index.ts"]
-        },
-        "strict": true,
-        "noUncheckedIndexedAccess": true,
-        "exactOptionalPropertyTypes": false
+        "paths": {}
     },
     "exclude": ["node_modules", "tmp"]
 }
