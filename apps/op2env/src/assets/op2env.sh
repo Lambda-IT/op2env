@@ -1,21 +1,20 @@
 op2env() {
-    filename="$1"
+    local filename="$1"
 
-    output=$(op2env-print "$@")
+    local output=$(op2env-print "$@")
     local status=$?
     if [ $status -ne 0 ]; then
         return $status
     fi
 
-    lines=$(echo "$output" | tr '\n' ' ')
+    local lines=$(echo "$output" | tr '\n' ' ')
 
     while IFS= read -r line; do
-        key="${line%%=*}"
-        value="${line#*=}"
+        local key="${line%%=*}"
+        local value="${line#*=}"
 
         if (( ${#key} > 0 )); then
             export "$key"="$value"
         fi
-
     done <<< "$output"
 }
