@@ -1,6 +1,13 @@
 {
     "name": "@lambda-it/op2env",
-    "version": "1.0.0",
+    "version": "0.0.1",
+    "description": "Fetch secrets from 1password as environment variables in your current shell session",
+    "private": false,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lambda-it/op2env.git"
+    },
     "bin": {
         "op2env-print": "./op2env-print.js",
         "op2env-install": "./op2env-install.js"

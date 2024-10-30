@@ -1,11 +1,10 @@
 {
     "name": "@op2env/source",
-    "version": "0.0.0",
     "license": "MIT",
     "scripts": {
         "upgrade-effect": "pnpm add @effect/cli@latest @effect/platform@latest @effect/platform-node@latest @effect/printer@latest @effect/printer-ansi@latest @effect/schema@latest @effect/typeclass@latest effect@latest"
     },
-    "private": true,
+    "private": false,
     "dependencies": {
         "@effect/cli": "^0.46.1",
         "@effect/platform": "^0.67.1",
