@@ -2,18 +2,19 @@
     "name": "@op2env/source",
     "license": "MIT",
     "scripts": {
-        "upgrade-effect": "pnpm add @effect/cli@latest @effect/platform@latest @effect/platform-node@latest @effect/printer@latest @effect/printer-ansi@latest @effect/schema@latest @effect/typeclass@latest effect@latest"
+        "upgrade-effect": "pnpm add @effect/cli@latest @effect/platform@latest @effect/platform-node@latest @effect/printer@latest @effect/printer-ansi@latest @effect/schema@latest @effect/typeclass@latest effect@latest",
+        "install:ci": "pnpm install --frozen-lockfile"
     },
     "private": false,
     "dependencies": {
-        "@effect/cli": "^0.46.1",
-        "@effect/platform": "^0.67.1",
-        "@effect/platform-node": "^0.62.1",
-        "@effect/printer": "^0.37.1",
-        "@effect/printer-ansi": "^0.37.1",
-        "@effect/schema": "^0.75.1",
-        "@effect/typeclass": "^0.28.1",
-        "effect": "^3.9.1"
+        "@effect/cli": "^0.48.27",
+        "@effect/platform": "^0.69.27",
+        "@effect/platform-node": "^0.64.29",
+        "@effect/printer": "^0.38.18",
+        "@effect/printer-ansi": "^0.38.18",
+        "@effect/schema": "^0.75.5",
+        "@effect/typeclass": "^0.29.18",
+        "effect": "^3.10.18"
     },
     "devDependencies": {
         "@eslint/js": "^9.8.0",

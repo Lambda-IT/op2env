@@ -3,20 +3,21 @@ function op2env {
         [string]$filename
     )
 
-    # Capture the output of `op2env-print` function
+    # Run op2env-print with all arguments and capture its output
     $output = op2env-print @args
+    if ($LASTEXITCODE -ne 0) {
+        return $LASTEXITCODE
+    }
 
     # Split the output into lines
     $lines = $output -split "`n"
 
-    # Loop over each line
+    # Process each line
     foreach ($line in $lines) {
-        # Split each line by '='
-        $parts = $line -split '=', 2
-
-        # Check if the split resulted in two parts, then set the environment variable
-        if ($parts.Count -eq 2) {
-            [System.Environment]::SetEnvironmentVariable($parts[0].Trim(), $parts[1].Trim(), "Process")
+        if ($line -match '^([^=]+)=(.*)$') {
+            $key = $matches[1]
+            $value = $matches[2]
+            [System.Environment]::SetEnvironmentVariable($key, $value, "Process")
         }
     }
 }
