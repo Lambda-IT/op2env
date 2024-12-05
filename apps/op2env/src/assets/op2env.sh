@@ -2,22 +2,21 @@ op2env() {
     local filename="$1"
 
     # Run op2env-print with all arguments and capture its output
-    local output=$(op2env-print "$@")
-    local status=$?
-    if [ $status -ne 0 ]; then
-        return $status
+    local output
+    output=$(op2env-print "$@")
+    if [ $? -ne 0 ]; then
+        return $?
     fi
 
     # Split the output into lines
-    local lines=$(echo "$output" | tr '\n' ' ')
+    IFS=$'\n' read -rd '' -a lines <<<"$output"
 
     # Process each line
-    while IFS= read -r line; do
-        local key="${line%%=*}"
-        local value="${line#*=}"
-
-        if (( ${#key} > 0 )); then
-            export "$key"="$value"
+    for line in "${lines[@]}"; do
+        if [[ $line =~ ^([^=]+)=(.*)$ ]]; then
+            local key="${BASH_REMATCH[1]}"
+            local value="${BASH_REMATCH[2]}"
+            export "$key=$value"
         fi
-    done <<< "$output"
+    done
 }

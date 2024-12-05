@@ -148,7 +148,7 @@ const command = Command.make(
     ({ files, exprt }) => program(files, exprt),
 )
 
-const cli = Command.run(command, { name: 'op2env-print', version: '0.0.2' })
+const cli = Command.run(command, { name: 'op2env-print', version: '0.0.3' })
 
 Effect.suspend(() => cli(process.argv)).pipe(
     Effect.provide(NodeContext.layer),

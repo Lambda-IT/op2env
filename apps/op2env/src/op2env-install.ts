@@ -14,7 +14,7 @@ const program = (scriptPath: string) =>
 
 const command = Command.make('op2env-install', {}, () => program(process.argv[1]))
 
-const cli = Command.run(command, { name: 'TODO', version: '0.0.0' })
+const cli = Command.run(command, { name: "Install function in to your shell's startup", version: '0.0.3' })
 
 Effect.suspend(() => cli(process.argv)).pipe(
     Effect.provide([NodeContext.layer, Shell.Default]),
