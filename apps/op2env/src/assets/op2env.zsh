@@ -1,19 +1,23 @@
-op2env() {
+function op2env {
     local filename="$1"
 
-    local output=$(op2env-print "$@")
-    if (( status != 0 )); then
-        return $status
+    # Run op2env-print with all arguments and capture its output
+    local output
+    output=$(op2env-print "$@")
+    if [ $? -ne 0 ]; then
+        return $?
     fi
 
-    local lines=$(echo "$output" | tr '\n' ' ')
+    # Split the output into lines
+    local lines
+    IFS=$'\n' lines=("${(@f)output}")
 
-    while IFS= read -r line; do
-        local key="${line%%=*}"
-        local value="${line#*=}"
-
-        if (( ${#key} > 0 )); then
-            export "$key"="$value"
+    # Process each line
+    for line in "${lines[@]}"; do
+        if [[ $line =~ ^([^=]+)=(.*)$ ]]; then
+            local key="${MATCH[1]}"
+            local value="${MATCH[2]}"
+            export "$key=$value"
         fi
-    done <<< "$output"
+    done
 }

@@ -17,12 +17,12 @@ export class OpError extends Data.TaggedError('OpError')<{
     }
 }
 
-export const fetchSecretsAndListAllEnvironmentVariables = (files: string[]) =>
+export const fetchSecretsAndListAllEnvironmentVariables = (filePath: string) =>
     Effect.gen(function* () {
         yield* signin
 
         const process = yield* pipe(
-            Command.make('op', 'run', ...files.map((file) => `--env-file=${file}`), '--no-masking', '--', 'printenv'),
+            Command.make('op', 'run', `--env-file=${filePath}`, '--no-masking', '--', 'printenv'),
             Command.start,
         )
         const { stderr, stdout, exitCode } = yield* Effect.all({
@@ -35,7 +35,7 @@ export const fetchSecretsAndListAllEnvironmentVariables = (files: string[]) =>
             yield* new OpError({
                 error: stderr,
                 message: 'Failed to fetch secrets and list all environment variables',
-                params: { files },
+                params: { filePath },
             })
         }
 
