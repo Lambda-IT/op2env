@@ -1,6 +1,6 @@
 {
     "name": "@lambda-it/op2env",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Fetch secrets from 1password as environment variables in your current shell session",
     "private": false,
     "license": "MIT",
